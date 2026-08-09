@@ -1,15 +1,16 @@
 {
   "name": "nodejs-gke-cicd",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Production-style Node.js CI/CD deployment on GKE",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "test": "node --test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.1.0"
   }
 }

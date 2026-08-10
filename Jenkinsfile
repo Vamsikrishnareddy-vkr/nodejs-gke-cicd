@@ -27,10 +27,12 @@ pipeline {
             }
         }
 
-        stage('Health Check') {
+       stage('Health Check') {
     steps {
-        bat 'timeout /t 5 /nobreak'
-        bat 'curl --fail http://localhost:3100/health'
+        retry(5) {
+            sleep 2
+            bat 'curl --fail http://localhost:3100/health'
+        }
     }
 }
     }

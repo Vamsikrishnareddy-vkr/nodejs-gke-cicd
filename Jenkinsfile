@@ -20,5 +20,23 @@ pipeline {
                 bat 'docker build -t nodejs-gke-cicd:jenkins .'
             }
         }
+
+        stage('Docker Run') {
+            steps {
+                bat 'docker run -d --name nodejs-ci-test -p 3100:3000 nodejs-gke-cicd:jenkins'
+            }
+        }
+
+        stage('Health Check') {
+            steps {
+                bat 'curl --fail http://localhost:3100/health'
+            }
+        }
+    }
+
+    post {
+        always {
+            bat 'docker rm -f nodejs-ci-test 2>nul || exit /b 0'
+        }
     }
 }

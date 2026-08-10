@@ -1,6 +1,6 @@
 # Node.js GKE CI/CD
 
-This project demonstrates a Jenkins CI pipeline for a Node.js application with Docker.
+This project demonstrates a Jenkins CI pipeline for a Node.js application Webhook test with Docker.
 
 ## CI/CD Pipeline
 

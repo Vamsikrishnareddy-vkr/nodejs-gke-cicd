@@ -17,13 +17,13 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                bat 'docker build -t nodejs-gke-cicd:jenkins .'
+                bat "docker build -t nodejs-gke-cicd:%BUILD_NUMBER% ."
             }
         }
 
         stage('Docker Run') {
             steps {
-                bat 'docker run -d --name nodejs-ci-test -p 3100:3000 nodejs-gke-cicd:jenkins'
+                bat "docker run -d --name nodejs-ci-test -p 3100:3000 nodejs-gke-cicd:%BUILD_NUMBER%"
             }
         }
 

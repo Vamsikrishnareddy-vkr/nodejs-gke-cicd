@@ -1,24 +1,40 @@
-# Node.js GKE CI/CD
+# Node.js GKE CI/CD Project
 
-This project demonstrates a Jenkins CI pipeline for a Node.js application
+## Overview
 
-## CI/CD Pipeline
+This project demonstrates a complete DevOps CI/CD workflow for a Node.js application.
 
-The Jenkins pipeline performs the following stages:
+The application is containerized using Docker, built and tested through Jenkins, scanned using Trivy, and deployed to Kubernetes using Helm.
 
-- Checkout source code from GitHub
-- Install Node.js dependencies
-- Run automated tests
-- Build Docker image
-- Run Docker container
-- Perform application health check
-- Clean up the test container
+The current implementation is running on Docker Desktop Kubernetes. This allows the complete CI/CD and Kubernetes workflow to be developed and tested without requiring GCP billing.
 
-## Technologies
+The project is designed so that the Kubernetes deployment can later be moved to Google Kubernetes Engine (GKE).
 
-- Node.js
-- Express.js
-- Docker
-- Jenkins
-- Git
-- GitHub
+---
+
+## Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| Node.js | Application runtime |
+| Express | Web application framework |
+| Git | Source code version control |
+| GitHub | Source code repository |
+| Jenkins | CI/CD automation |
+| Docker | Application containerization |
+| Trivy | Container vulnerability scanning |
+| Kubernetes | Container orchestration |
+| Docker Desktop | Local Kubernetes environment |
+| Helm | Kubernetes package and deployment management |
+| kubectl | Kubernetes command-line management |
+
+---
+
+## Application
+
+The application is a Node.js application running on port `3000`.
+
+The application provides a health endpoint:
+
+```text
+GET /health

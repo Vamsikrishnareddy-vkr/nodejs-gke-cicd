@@ -28,10 +28,11 @@ pipeline {
         }
 
         stage('Health Check') {
-            steps {
-                bat 'curl --fail http://localhost:3100/health'
-            }
-        }
+    steps {
+        bat 'timeout /t 5 /nobreak'
+        bat 'curl --fail http://localhost:3100/health'
+    }
+}
     }
 
     post {

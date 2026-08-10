@@ -1,6 +1,13 @@
 pipeline {
     agent any
 
+    environment {
+        APP_NAME = "nodejs-gke-cicd"
+        IMAGE_TAG = "${BUILD_NUMBER}"
+        CONTAINER_NAME = "nodejs-ci-test"
+        TRIVY = "C:\\Users\\Vamsi Krishna\\Downloads\\trivy_0.73.0_Windows-64bit\\trivy.exe"
+    }
+
     stages {
 
         stage('Install Dependencies') {
@@ -17,29 +24,38 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                bat "docker build -t nodejs-gke-cicd:%BUILD_NUMBER% ."
+                bat 'docker build --pull -t %APP_NAME%:%IMAGE_TAG% .'
+            }
+        }
+
+        stage('Trivy Security Scan') {
+            steps {
+                echo "Scanning Docker image: %APP_NAME%:%IMAGE_TAG%"
+
+                bat '"%TRIVY%" image --severity HIGH,CRITICAL --exit-code 0 %APP_NAME%:%IMAGE_TAG%'
             }
         }
 
         stage('Docker Run') {
             steps {
-                bat "docker run -d --name nodejs-ci-test -p 3100:3000 nodejs-gke-cicd:%BUILD_NUMBER%"
+                bat 'docker rm -f %CONTAINER_NAME% 2>nul || exit /b 0'
+                bat 'docker run -d --name %CONTAINER_NAME% -p 3100:3000 %APP_NAME%:%IMAGE_TAG%'
             }
         }
 
-       stage('Health Check') {
-    steps {
-        retry(5) {
-            sleep 2
-            bat 'curl --fail http://localhost:3100/health'
+        stage('Health Check') {
+            steps {
+                retry(5) {
+                    sleep 2
+                    bat 'curl --fail http://localhost:3100/health'
+                }
+            }
         }
-    }
-}
     }
 
     post {
         always {
-            bat 'docker rm -f nodejs-ci-test 2>nul || exit /b 0'
+            bat 'docker rm -f %CONTAINER_NAME% 2>nul || exit /b 0'
         }
     }
 }

@@ -22,7 +22,7 @@ app.get("/health", (req, res) => {
 
 app.get("/api/info", (req, res) => {
   res.json({
-    message: "Node.js application running successfully",
+    message: "Node.js application v2 running successfully",
     hostname: require("os").hostname(),
     version: process.env.APP_VERSION || "1.0.0"
   });
